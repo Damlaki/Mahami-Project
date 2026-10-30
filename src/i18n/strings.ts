@@ -1,0 +1,305 @@
+/**
+ * All user-facing text. English is the reference; Arabic must have the same keys
+ * (TypeScript enforces this through the `Strings` type).
+ * Use {name} placeholders for values.
+ */
+const en = {
+  appName: "Mahami",
+  "common.close": "Close",
+  "common.loading": "Loading",
+
+  // Navigation
+  "tab.home": "Home",
+  "tab.tasks": "Tasks",
+  "tab.settings": "Settings",
+
+  // Greetings
+  "greeting.morning": "Good morning",
+  "greeting.afternoon": "Good afternoon",
+  "greeting.evening": "Good evening",
+  "greeting.night": "Good night",
+
+  // Home
+  "home.today": "Today",
+  "home.progress": "{done} of {total} done",
+  "home.noTasksToday": "Nothing planned for today yet.",
+  "home.allDone": "All done for today. Nice work.",
+  "home.nextUp": "Next up",
+  "home.now": "Now",
+  "home.at": "At {time}",
+  "home.anytime": "Anytime today",
+  "home.nothingNext": "Your day is clear.",
+  "home.todayList": "Today's tasks",
+  "home.seeAll": "See all",
+  "home.overdueBanner": "{count} overdue — review them",
+
+  // Task views
+  "view.all": "All",
+  "view.today": "Today",
+  "view.upcoming": "Upcoming",
+  "view.overdue": "Overdue",
+  "view.completed": "Completed",
+
+  "empty.all": "No tasks yet. Tap + to add your first one.",
+  "empty.today": "Nothing planned for today.",
+  "empty.upcoming": "Nothing coming up.",
+  "empty.overdue": "You're all caught up.",
+  "empty.completed": "Completed tasks will appear here.",
+  "empty.action": "Add a task",
+
+  // Sections
+  "section.overdue": "Overdue",
+  "section.none": "No date",
+  "day.today": "Today",
+  "day.tomorrow": "Tomorrow",
+  "day.yesterday": "Yesterday",
+
+  // Task card
+  "task.markDone": "Mark “{title}” as done",
+  "task.markUndone": "Mark “{title}” as not done",
+  "task.open": "Edit “{title}”",
+  "task.minutes": "{n} min",
+  "task.overdue": "Overdue",
+
+  // Editor
+  "editor.new": "New task",
+  "editor.edit": "Edit task",
+  "editor.title": "Title",
+  "editor.titlePlaceholder": "e.g. Read a book",
+  "editor.notes": "Notes",
+  "editor.notesPlaceholder": "Optional details",
+  "editor.date": "Date",
+  "editor.noDate": "No date",
+  "editor.today": "Today",
+  "editor.tomorrow": "Tomorrow",
+  "editor.pickDate": "Pick date…",
+  "editor.time": "Start time",
+  "editor.noTime": "No time",
+  "editor.pickTime": "Pick time…",
+  "editor.duration": "Duration",
+  "editor.priority": "Priority",
+  "editor.category": "Category",
+  "editor.save": "Save",
+  "editor.cancel": "Cancel",
+  "editor.delete": "Delete task",
+  "editor.dateFormatHint": "YYYY-MM-DD",
+  "editor.timeFormatHint": "HH:MM",
+  "editor.more": "More options",
+  "editor.less": "Fewer options",
+
+  "priority.low": "Low",
+  "priority.medium": "Medium",
+  "priority.high": "High",
+  "priority.urgent": "Urgent",
+
+  "category.personal": "Personal",
+  "category.work": "Work",
+  "category.study": "Study",
+  "category.health": "Health",
+  "category.home": "Home",
+
+  // Validation
+  "error.titleRequired": "Please enter a title.",
+  "error.titleTooLong": "Keep the title under 120 characters.",
+  "error.notesTooLong": "Notes are too long.",
+  "error.invalidDate": "That date isn't valid.",
+  "error.invalidTime": "That time isn't valid.",
+  "error.timeWithoutDate": "Pick a date before adding a time.",
+  "error.invalidDuration": "Choose a duration between 1 minute and 24 hours.",
+  "error.invalidPriority": "Choose a priority.",
+  "error.invalidCategory": "Choose a category.",
+  "error.loadFailed": "Couldn't load your saved data.",
+  "error.saveFailed": "Couldn't save your changes. They'll be retried on the next change.",
+  "error.retry": "Try again",
+
+  // Toasts
+  "toast.deleted": "Task deleted",
+  "toast.undo": "Undo",
+  "toast.saved": "Saved",
+
+  // Theme
+  "theme.toLight": "Switch to light mode",
+  "theme.toDark": "Switch to dark mode",
+
+  // Settings
+  "settings.title": "Settings",
+  "settings.profile": "Profile",
+  "settings.name": "Your name",
+  "settings.namePlaceholder": "Shown in the greeting",
+  "settings.appearance": "Appearance",
+  "settings.theme": "Theme",
+  "settings.theme.system": "System",
+  "settings.theme.light": "Light",
+  "settings.theme.dark": "Dark",
+  "settings.theme.time": "By time",
+  "settings.theme.timeHint": "Light from 6:00 to 19:00, dark otherwise.",
+  "settings.language": "Language",
+  "settings.timeFormat": "Time format",
+  "settings.time.24h": "24-hour",
+  "settings.time.12h": "12-hour",
+  "settings.data": "Your data",
+  "settings.dataHint": "Data is stored on this phone only. Accounts and sync arrive in a later version.",
+  "settings.import": "Import tasks",
+  "settings.importHint": "Paste the JSON from the old web app (or from an export) below.",
+  "settings.importPlaceholder": "[{\"id\":1,\"title\":\"…\",\"date\":\"2026-10-15\",\"isDone\":false}]",
+  "settings.importAction": "Import",
+  "settings.importResult": "Imported {count}. Skipped {skipped} invalid, {duplicates} already here.",
+  "settings.importError.empty": "Paste some JSON first.",
+  "settings.importError.notJson": "That isn't valid JSON.",
+  "settings.importError.notArray": "Expected a list of tasks.",
+  "settings.export": "Export tasks",
+  "settings.exportHint": "Share a JSON backup of all your tasks.",
+  "settings.about": "About",
+  "settings.version": "Version {version}",
+};
+
+export type StringKey = keyof typeof en;
+export type Strings = Record<StringKey, string>;
+
+const ar: Strings = {
+  appName: "مهامي",
+  "common.close": "إغلاق",
+  "common.loading": "جارٍ التحميل",
+
+  "tab.home": "الرئيسية",
+  "tab.tasks": "المهام",
+  "tab.settings": "الإعدادات",
+
+  "greeting.morning": "صباح الخير",
+  "greeting.afternoon": "نهارك سعيد",
+  "greeting.evening": "مساء الخير",
+  "greeting.night": "تصبح على خير",
+
+  "home.today": "اليوم",
+  "home.progress": "أُنجز {done} من {total}",
+  "home.noTasksToday": "لا شيء مخطط لليوم بعد.",
+  "home.allDone": "أنجزت كل مهام اليوم. عمل رائع.",
+  "home.nextUp": "التالي",
+  "home.now": "الآن",
+  "home.at": "الساعة {time}",
+  "home.anytime": "في أي وقت اليوم",
+  "home.nothingNext": "يومك فارغ.",
+  "home.todayList": "مهام اليوم",
+  "home.seeAll": "عرض الكل",
+  "home.overdueBanner": "{count} متأخرة — راجعها",
+
+  "view.all": "الكل",
+  "view.today": "اليوم",
+  "view.upcoming": "القادمة",
+  "view.overdue": "المتأخرة",
+  "view.completed": "المنجزة",
+
+  "empty.all": "لا توجد مهام بعد. اضغط + لإضافة أول مهمة.",
+  "empty.today": "لا شيء مخطط لليوم.",
+  "empty.upcoming": "لا توجد مهام قادمة.",
+  "empty.overdue": "لا توجد مهام متأخرة.",
+  "empty.completed": "ستظهر المهام المنجزة هنا.",
+  "empty.action": "أضف مهمة",
+
+  "section.overdue": "متأخرة",
+  "section.none": "بدون تاريخ",
+  "day.today": "اليوم",
+  "day.tomorrow": "غدًا",
+  "day.yesterday": "أمس",
+
+  "task.markDone": "تحديد «{title}» كمنجزة",
+  "task.markUndone": "إلغاء إنجاز «{title}»",
+  "task.open": "تعديل «{title}»",
+  "task.minutes": "{n} د",
+  "task.overdue": "متأخرة",
+
+  "editor.new": "مهمة جديدة",
+  "editor.edit": "تعديل المهمة",
+  "editor.title": "اسم المهمة",
+  "editor.titlePlaceholder": "مثال: قراءة كتاب",
+  "editor.notes": "ملاحظات",
+  "editor.notesPlaceholder": "تفاصيل اختيارية",
+  "editor.date": "التاريخ",
+  "editor.noDate": "بدون تاريخ",
+  "editor.today": "اليوم",
+  "editor.tomorrow": "غدًا",
+  "editor.pickDate": "اختر تاريخًا…",
+  "editor.time": "وقت البدء",
+  "editor.noTime": "بدون وقت",
+  "editor.pickTime": "اختر وقتًا…",
+  "editor.duration": "المدة",
+  "editor.priority": "الأولوية",
+  "editor.category": "التصنيف",
+  "editor.save": "حفظ",
+  "editor.cancel": "إلغاء",
+  "editor.delete": "حذف المهمة",
+  "editor.dateFormatHint": "YYYY-MM-DD",
+  "editor.timeFormatHint": "HH:MM",
+  "editor.more": "خيارات أكثر",
+  "editor.less": "خيارات أقل",
+
+  "priority.low": "منخفضة",
+  "priority.medium": "متوسطة",
+  "priority.high": "عالية",
+  "priority.urgent": "عاجلة",
+
+  "category.personal": "شخصي",
+  "category.work": "عمل",
+  "category.study": "دراسة",
+  "category.health": "صحة",
+  "category.home": "منزل",
+
+  "error.titleRequired": "الرجاء إدخال اسم المهمة.",
+  "error.titleTooLong": "يجب ألا يتجاوز الاسم 120 حرفًا.",
+  "error.notesTooLong": "الملاحظات طويلة جدًا.",
+  "error.invalidDate": "التاريخ غير صالح.",
+  "error.invalidTime": "الوقت غير صالح.",
+  "error.timeWithoutDate": "اختر تاريخًا قبل إضافة وقت.",
+  "error.invalidDuration": "اختر مدة بين دقيقة و24 ساعة.",
+  "error.invalidPriority": "اختر الأولوية.",
+  "error.invalidCategory": "اختر التصنيف.",
+  "error.loadFailed": "تعذر تحميل بياناتك المحفوظة.",
+  "error.saveFailed": "تعذر حفظ التغييرات. ستتم إعادة المحاولة عند التغيير التالي.",
+  "error.retry": "إعادة المحاولة",
+
+  "toast.deleted": "حُذفت المهمة",
+  "toast.undo": "تراجع",
+  "toast.saved": "تم الحفظ",
+
+  "theme.toLight": "التبديل إلى الوضع الفاتح",
+  "theme.toDark": "التبديل إلى الوضع الداكن",
+
+  "settings.title": "الإعدادات",
+  "settings.profile": "الملف الشخصي",
+  "settings.name": "اسمك",
+  "settings.namePlaceholder": "يظهر في التحية",
+  "settings.appearance": "المظهر",
+  "settings.theme": "السمة",
+  "settings.theme.system": "النظام",
+  "settings.theme.light": "فاتح",
+  "settings.theme.dark": "داكن",
+  "settings.theme.time": "حسب الوقت",
+  "settings.theme.timeHint": "فاتح من 6:00 إلى 19:00، وداكن في باقي الوقت.",
+  "settings.language": "اللغة",
+  "settings.timeFormat": "تنسيق الوقت",
+  "settings.time.24h": "24 ساعة",
+  "settings.time.12h": "12 ساعة",
+  "settings.data": "بياناتك",
+  "settings.dataHint": "تُحفظ البيانات على هذا الهاتف فقط. الحسابات والمزامنة في إصدار لاحق.",
+  "settings.import": "استيراد المهام",
+  "settings.importHint": "الصق نص JSON من تطبيق الويب القديم (أو من ملف تصدير) بالأسفل.",
+  "settings.importPlaceholder": "[{\"id\":1,\"title\":\"…\",\"date\":\"2026-10-15\",\"isDone\":false}]",
+  "settings.importAction": "استيراد",
+  "settings.importResult": "تم استيراد {count}. تم تخطي {skipped} غير صالحة و{duplicates} موجودة مسبقًا.",
+  "settings.importError.empty": "الصق نص JSON أولًا.",
+  "settings.importError.notJson": "النص ليس JSON صالحًا.",
+  "settings.importError.notArray": "يجب أن يكون النص قائمة مهام.",
+  "settings.export": "تصدير المهام",
+  "settings.exportHint": "شارك نسخة احتياطية JSON لكل مهامك.",
+  "settings.about": "حول التطبيق",
+  "settings.version": "الإصدار {version}",
+};
+
+export const strings: Record<"en" | "ar", Strings> = { en, ar };
+
+export function interpolate(template: string, params?: Record<string, string | number>): string {
+  if (!params) return template;
+  return template.replace(/\{(\w+)\}/g, (match, key: string) =>
+    key in params ? String(params[key]) : match,
+  );
+}
