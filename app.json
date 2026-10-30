@@ -17,6 +17,16 @@
       "expo-splash-screen",
       "expo-font",
       "@react-native-community/datetimepicker"
-    ]
+    ],
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "9cb44391-14d6-4d1a-a9f8-c5bcd4184f20"
+      }
+    }
   }
 }
