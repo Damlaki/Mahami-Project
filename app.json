@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Mahami",
+    "name": "Orbit",
     "slug": "mahami-planner",
     "scheme": "mahami",
     "version": "0.1.0",
@@ -9,12 +9,29 @@
     "backgroundColor": "#F7F4EF",
     "android": {
       "package": "com.mahami.planner",
-      "softwareKeyboardLayoutMode": "resize"
+      "softwareKeyboardLayoutMode": "resize",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundImage": "./assets/adaptive-background.png",
+        "monochromeImage": "./assets/monochrome-icon.png",
+        "backgroundColor": "#1E8C80"
+      }
     },
     "plugins": [
       "expo-router",
       "expo-status-bar",
-      "expo-splash-screen",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 120,
+          "backgroundColor": "#F7F4EF",
+          "dark": {
+            "image": "./assets/splash-icon.png",
+            "backgroundColor": "#0C1120"
+          }
+        }
+      ],
       "expo-font",
       "@react-native-community/datetimepicker"
     ],
@@ -27,6 +44,7 @@
       "eas": {
         "projectId": "9cb44391-14d6-4d1a-a9f8-c5bcd4184f20"
       }
-    }
+    },
+    "icon": "./assets/icon.png"
   }
 }

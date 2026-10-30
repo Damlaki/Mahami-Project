@@ -4,7 +4,7 @@
  * Use {name} placeholders for values.
  */
 const en = {
-  appName: "Mahami",
+  appName: "Orbit",
   "common.close": "Close",
   "common.loading": "Loading",
 
@@ -157,7 +157,7 @@ export type StringKey = keyof typeof en;
 export type Strings = Record<StringKey, string>;
 
 const ar: Strings = {
-  appName: "مهامي",
+  appName: "مدار",
   "common.close": "إغلاق",
   "common.loading": "جارٍ التحميل",
 
