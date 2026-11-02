@@ -15,8 +15,12 @@ import type { IconName } from "./ui/Button";
 
 export const TAB_BAR_HEIGHT = 64;
 
-const TABS: { href: "/" | "/tasks" | "/settings"; label: StringKey; icon: IconName; activeIcon: IconName }[] = [
+type TabHref = "/" | "/timeline" | "/matrix" | "/tasks" | "/settings";
+
+const TABS: { href: TabHref; label: StringKey; icon: IconName; activeIcon: IconName }[] = [
   { href: "/", label: "tab.home", icon: "sunny-outline", activeIcon: "sunny" },
+  { href: "/timeline", label: "tab.timeline", icon: "time-outline", activeIcon: "time" },
+  { href: "/matrix", label: "tab.matrix", icon: "grid-outline", activeIcon: "grid" },
   { href: "/tasks", label: "tab.tasks", icon: "checkmark-circle-outline", activeIcon: "checkmark-circle" },
   { href: "/settings", label: "tab.settings", icon: "settings-outline", activeIcon: "settings" },
 ];
@@ -57,7 +61,7 @@ export function TabBar() {
             <View style={[styles.pill, active && { backgroundColor: colors.primarySoft }]}>
               <Ionicons
                 name={active ? tab.activeIcon : tab.icon}
-                size={22}
+                size={20}
                 color={active ? colors.primary : colors.textMuted}
               />
             </View>
@@ -77,6 +81,6 @@ const styles = StyleSheet.create({
     paddingTop: space.xs,
   },
   item: { flex: 1, alignItems: "center", justifyContent: "center", gap: 1 },
-  pill: { width: 60, height: 30, borderRadius: 15, alignItems: "center", justifyContent: "center", overflow: "hidden" },
-  label: { fontSize: 11, lineHeight: 15 },
+  pill: { width: 52, height: 28, borderRadius: 14, alignItems: "center", justifyContent: "center", overflow: "hidden" },
+  label: { fontSize: 10, lineHeight: 14 },
 });

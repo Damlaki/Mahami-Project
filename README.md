@@ -1,4 +1,4 @@
-# مهامي · Mahami — personal planner for Android
+# Orbit · أوربت: personal planner for Android
 
 A daily planner, task manager and (soon) calendar, habit tracker and focus timer, built with **React Native + Expo** and TypeScript. It grew out of the vanilla-JS to-do app in `Lessons/JS-Course2/to-do-list-project`, which is left untouched.
 
@@ -46,6 +46,8 @@ Scan the QR code with Expo Go. Your PC and phone must be on the same Wi-Fi. If t
 ## What works now
 
 - **Home**: greeting based on time of day (with your name, if you set one), today's date, a live clock that ticks each second without drifting, an animated **sun/moon sky**, today's progress, "Next up", today's tasks and an overdue banner.
+- **Timeline** (Structured-style): week strip with task dots, then the day as a vertical rail of colored capsules. Longer tasks get taller capsules. It also shows free time between tasks, a live "now" line on today, overlap warnings and an "Anytime" list for untimed tasks.
+- **Priority matrix** (Eisenhower): open tasks in four quadrants (Do first · Schedule · Delegate · Later) based on each task's **Important** and **Urgent** flags. Add straight into a quadrant with its **+** button. Tasks from v0.1 get their flags from their priority automatically.
 - **Tasks**: create, edit, complete/undo and delete, with **Undo** after a delete. Filter views: All, Today, Upcoming, Overdue and Completed, with counts, grouped by day.
 - **Task fields**: title, notes, date (Today/Tomorrow/pick), start time, duration, priority (low → urgent) and category (with colors and icons). Adding a task is fast: type a title and tap Save. The rest sits under "More options".
 - **Theme**: light, dark, follow the system, or **by time** (light 06:00–19:00). The sun/moon toggle animates the switch, the whole screen cross-fades, and animations are skipped when the phone's "Remove animations" setting is on.

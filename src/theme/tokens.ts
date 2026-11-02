@@ -103,13 +103,13 @@ export const fonts = {
 } as const;
 
 export const type = {
-  display: { fontSize: 52, lineHeight: 64, fontFamily: fonts.bold },
-  title: { fontSize: 26, lineHeight: 38, fontFamily: fonts.bold },
-  heading: { fontSize: 18, lineHeight: 28, fontFamily: fonts.bold },
-  body: { fontSize: 15, lineHeight: 24, fontFamily: fonts.regular },
-  bodyStrong: { fontSize: 15, lineHeight: 24, fontFamily: fonts.semibold },
-  caption: { fontSize: 13, lineHeight: 20, fontFamily: fonts.regular },
-  label: { fontSize: 12, lineHeight: 18, fontFamily: fonts.semibold },
+  display: { fontSize: 44, lineHeight: 54, fontFamily: fonts.bold },
+  title: { fontSize: 22, lineHeight: 32, fontFamily: fonts.bold },
+  heading: { fontSize: 16, lineHeight: 24, fontFamily: fonts.bold },
+  body: { fontSize: 14, lineHeight: 21, fontFamily: fonts.regular },
+  bodyStrong: { fontSize: 14, lineHeight: 21, fontFamily: fonts.semibold },
+  caption: { fontSize: 12, lineHeight: 18, fontFamily: fonts.regular },
+  label: { fontSize: 11, lineHeight: 16, fontFamily: fonts.semibold },
 } as const;
 
 export type TypeVariant = keyof typeof type;

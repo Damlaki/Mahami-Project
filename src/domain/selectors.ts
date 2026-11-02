@@ -137,3 +137,26 @@ export function countByView(tasks: readonly Task[], today: string): Record<TaskV
 export function quickDates(today: string) {
   return { today, tomorrow: addDays(today, 1), nextWeek: addDays(today, 7) };
 }
+
+// ---------------------------------------------------------------------------
+// Eisenhower matrix
+
+export type Quadrant = "do" | "schedule" | "delegate" | "eliminate";
+export const QUADRANTS: readonly Quadrant[] = ["do", "schedule", "delegate", "eliminate"];
+
+/** do = important + urgent, schedule = important only, delegate = urgent only, eliminate = neither */
+export function quadrantOf(task: Pick<Task, "important" | "urgent">): Quadrant {
+  if (task.important) return task.urgent ? "do" : "schedule";
+  return task.urgent ? "delegate" : "eliminate";
+}
+
+export function quadrantFlags(q: Quadrant): { important: boolean; urgent: boolean } {
+  return { important: q === "do" || q === "schedule", urgent: q === "do" || q === "delegate" };
+}
+
+/** Open tasks per quadrant, sorted. */
+export function groupByQuadrant(tasks: readonly Task[]): Record<Quadrant, Task[]> {
+  const groups: Record<Quadrant, Task[]> = { do: [], schedule: [], delegate: [], eliminate: [] };
+  for (const task of sortTasks(tasks.filter((t) => !t.isDone))) groups[quadrantOf(task)].push(task);
+  return groups;
+}

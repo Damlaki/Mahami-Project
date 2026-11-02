@@ -25,6 +25,9 @@ export interface Task {
   durationMin: number | null;
   priority: Priority;
   category: CategoryId;
+  /** Eisenhower matrix axes */
+  important: boolean;
+  urgent: boolean;
   isDone: boolean;
   completedAt: string | null; // ISO timestamp
   createdAt: string; // ISO timestamp
@@ -40,6 +43,8 @@ export interface TaskInput {
   durationMin: number | null;
   priority: Priority;
   category: CategoryId;
+  important: boolean;
+  urgent: boolean;
 }
 
 export type TaskField = keyof TaskInput;
@@ -67,6 +72,8 @@ export function emptyTaskInput(defaults: Partial<TaskInput> = {}): TaskInput {
     durationMin: null,
     priority: "medium",
     category: "personal",
+    important: false,
+    urgent: false,
     ...defaults,
   };
 }
@@ -141,8 +148,8 @@ export function toggleTaskDone(task: Task, now: Date = new Date()): Task {
 }
 
 export function taskToInput(task: Task): TaskInput {
-  const { title, notes, date, startTime, durationMin, priority, category } = task;
-  return { title, notes, date, startTime, durationMin, priority, category };
+  const { title, notes, date, startTime, durationMin, priority, category, important, urgent } = task;
+  return { title, notes, date, startTime, durationMin, priority, category, important, urgent };
 }
 
 /** End time "HH:mm" when both a start time and a duration are set. */
@@ -167,8 +174,27 @@ export function isTask(value: unknown): value is Task {
     (v.durationMin === null || typeof v.durationMin === "number") &&
     PRIORITIES.includes(v.priority as Priority) &&
     CATEGORIES.includes(v.category as CategoryId) &&
+    typeof v.important === "boolean" &&
+    typeof v.urgent === "boolean" &&
     typeof v.isDone === "boolean" &&
     typeof v.createdAt === "string" &&
     typeof v.updatedAt === "string"
   );
+}
+
+/**
+ * Brings tasks saved by older versions up to the current shape.
+ * v1 tasks had no important/urgent flags: derive them from the priority
+ * (urgent → both, high → important) so the matrix starts out sensible.
+ */
+export function upgradeTask(value: unknown): Task | null {
+  if (typeof value !== "object" || value === null) return null;
+  const v = value as Record<string, unknown>;
+  const priority = v.priority as Priority;
+  const candidate = {
+    ...v,
+    important: typeof v.important === "boolean" ? v.important : priority === "high" || priority === "urgent",
+    urgent: typeof v.urgent === "boolean" ? v.urgent : priority === "urgent",
+  };
+  return isTask(candidate) ? candidate : null;
 }

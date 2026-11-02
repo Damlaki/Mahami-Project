@@ -140,3 +140,21 @@ export function formatLongDate(date: Date, lang: Lang): string {
 export function formatShortDate(date: Date, lang: Lang): string {
   return safeFormat(date, lang, { weekday: "short", day: "numeric", month: "short" });
 }
+
+/** First day of the week containing `key` (weekStart: 0 = Sunday, 1 = Monday, 6 = Saturday). */
+export function startOfWeek(key: string, weekStart = 1): string {
+  const date = parseDateKey(key);
+  if (!date) throw new Error(`Invalid date key: ${key}`);
+  const diff = (date.getDay() - weekStart + 7) % 7;
+  return addDays(key, -diff);
+}
+
+/** "November 2026" */
+export function formatMonthYear(date: Date, lang: Lang): string {
+  return safeFormat(date, lang, { month: "long", year: "numeric" });
+}
+
+/** "Mon" / "الاثنين" (short weekday) */
+export function formatWeekdayShort(date: Date, lang: Lang): string {
+  return safeFormat(date, lang, { weekday: "short" });
+}

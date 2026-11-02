@@ -8,7 +8,7 @@
  * Exports from this app (Settings → Export) can be pasted back in the same way.
  */
 import { isValidDateKey } from "../lib/date";
-import { isTask } from "./task";
+import { upgradeTask } from "./task";
 import type { Task } from "./task";
 
 export type ImportErrorCode = "empty" | "notJson" | "notArray";
@@ -48,6 +48,8 @@ function fromLegacy(item: LegacyTask, now: Date): Task {
     durationMin: null,
     priority: "medium",
     category: "personal",
+    important: false,
+    urgent: false,
     isDone: item.isDone,
     completedAt: item.isDone ? iso : null,
     createdAt: iso,
@@ -84,9 +86,8 @@ export function parseImport(
   let duplicates = 0;
 
   for (const item of data) {
-    let task: Task | null = null;
-    if (isTask(item)) task = item;
-    else if (isLegacyTask(item)) task = fromLegacy(item, now);
+    let task: Task | null = upgradeTask(item);
+    if (task === null && isLegacyTask(item)) task = fromLegacy(item, now);
 
     if (task === null) {
       skipped++;

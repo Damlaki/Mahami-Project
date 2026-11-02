@@ -61,3 +61,10 @@ test("day parts and relative days", () => {
   assert.equal(relativeDay("2026-10-27", "2026-10-28"), "yesterday");
   assert.equal(relativeDay("2026-11-02", "2026-10-28"), null);
 });
+
+test("start of week", async () => {
+  const { startOfWeek } = await import("../src/lib/date.ts");
+  assert.equal(startOfWeek("2026-11-02", 1), "2026-11-02"); // Monday
+  assert.equal(startOfWeek("2026-11-08", 1), "2026-11-02"); // Sunday → previous Monday
+  assert.equal(startOfWeek("2026-11-04", 6), "2026-10-31"); // Saturday start
+});

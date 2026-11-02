@@ -26,7 +26,7 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { space } from "@/theme/tokens";
 import { AppText } from "./ui/AppText";
 import { Button } from "./ui/Button";
-import { ChipRow } from "./ui/Chip";
+import { Chip, ChipRow } from "./ui/Chip";
 import { Sheet } from "./ui/Sheet";
 import { TextField } from "./ui/TextField";
 import { CATEGORY_ICONS } from "./TaskCard";
@@ -102,6 +102,8 @@ export function TaskEditor({ visible, task, defaults, onClose, onSave, onDelete 
 
   const pickTime = () => {
     if (Platform.OS !== "android") return;
+    // A time needs a day: default to today when none is chosen yet.
+    if (input.date === null) setDate(dates.today);
     const base = new Date();
     if (input.startTime) {
       const [h, m] = input.startTime.split(":").map(Number);
@@ -213,6 +215,87 @@ export function TaskEditor({ visible, task, defaults, onClose, onSave, onDelete 
         ) : null}
       </View>
 
+      <View style={styles.group}>
+        <AppText variant="label" tone="muted">
+          {t("editor.time")}
+        </AppText>
+        {isAndroid ? (
+          <ChipRow
+            options={[
+              { value: "none", label: t("editor.noTime") },
+              {
+                value: "pick",
+                label: input.startTime
+                  ? formatTime(input.startTime, prefs.timeFormat, lang)
+                  : t("editor.pickTime"),
+                icon: "time-outline",
+              },
+            ]}
+            value={input.startTime ? "pick" : "none"}
+            onChange={(v) => {
+              if (v === "none") {
+                set("startTime", null);
+                setTimeText("");
+              } else pickTime();
+            }}
+          />
+        ) : (
+          <TextField
+            label={t("editor.time")}
+            hint={t("editor.timeFormatHint")}
+            value={timeText}
+            onChangeText={(v) => {
+              setTimeText(v);
+              set("startTime", v.trim() === "" ? null : v.trim());
+              if (input.date === null && v.trim() !== "") setDate(dates.today);
+            }}
+            keyboardType="numbers-and-punctuation"
+            error={errorText("startTime")}
+          />
+        )}
+        {isAndroid && errors.startTime ? (
+          <AppText variant="caption" tone="danger">
+            {errorText("startTime")}
+          </AppText>
+        ) : null}
+      </View>
+
+      <View style={styles.group}>
+        <AppText variant="label" tone="muted">
+          {t("editor.duration")}
+        </AppText>
+        <ChipRow
+          options={[
+            { value: 0, label: "—" },
+            ...DURATION_PRESETS.map((n) => ({ value: n, label: t("task.minutes", { n }) })),
+          ]}
+          value={input.durationMin ?? 0}
+          onChange={(n) => set("durationMin", n === 0 ? null : n)}
+        />
+      </View>
+
+      <View style={styles.group}>
+        <AppText variant="label" tone="muted">
+          {t("editor.matrix")}
+        </AppText>
+        <View style={[styles.toggles, { flexDirection: row }]}>
+          <Chip
+            label={t("matrix.important")}
+            icon={input.important ? "star" : "star-outline"}
+            color={colors.primary}
+            selected={input.important}
+            onPress={() => set("important", !input.important)}
+          />
+          <Chip
+            label={t("matrix.urgent")}
+            icon={input.urgent ? "flash" : "flash-outline"}
+            color={colors.danger}
+            selected={input.urgent}
+            onPress={() => set("urgent", !input.urgent)}
+          />
+        </View>
+      </View>
+
       <View style={{ flexDirection: row }}>
         <Button
           label={showMore ? t("editor.less") : t("editor.more")}
@@ -226,66 +309,6 @@ export function TaskEditor({ visible, task, defaults, onClose, onSave, onDelete 
 
       {showMore ? (
         <>
-          {input.date !== null ? (
-            <View style={styles.group}>
-              <AppText variant="label" tone="muted">
-                {t("editor.time")}
-              </AppText>
-              {isAndroid ? (
-                <ChipRow
-                  options={[
-                    { value: "none", label: t("editor.noTime") },
-                    {
-                      value: "pick",
-                      label: input.startTime
-                        ? formatTime(input.startTime, prefs.timeFormat, lang)
-                        : t("editor.pickTime"),
-                      icon: "time-outline",
-                    },
-                  ]}
-                  value={input.startTime ? "pick" : "none"}
-                  onChange={(v) => {
-                    if (v === "none") {
-                      set("startTime", null);
-                      setTimeText("");
-                    } else pickTime();
-                  }}
-                />
-              ) : (
-                <TextField
-                  label={t("editor.time")}
-                  hint={t("editor.timeFormatHint")}
-                  value={timeText}
-                  onChangeText={(v) => {
-                    setTimeText(v);
-                    set("startTime", v.trim() === "" ? null : v.trim());
-                  }}
-                  keyboardType="numbers-and-punctuation"
-                  error={errorText("startTime")}
-                />
-              )}
-              {isAndroid && errors.startTime ? (
-                <AppText variant="caption" tone="danger">
-                  {errorText("startTime")}
-                </AppText>
-              ) : null}
-            </View>
-          ) : null}
-
-          <View style={styles.group}>
-            <AppText variant="label" tone="muted">
-              {t("editor.duration")}
-            </AppText>
-            <ChipRow
-              options={[
-                { value: 0, label: "—" },
-                ...DURATION_PRESETS.map((n) => ({ value: n, label: t("task.minutes", { n }) })),
-              ]}
-              value={input.durationMin ?? 0}
-              onChange={(n) => set("durationMin", n === 0 ? null : n)}
-            />
-          </View>
-
           <View style={styles.group}>
             <AppText variant="label" tone="muted">
               {t("editor.priority")}
@@ -339,6 +362,7 @@ export function TaskEditor({ visible, task, defaults, onClose, onSave, onDelete 
 
 const styles = StyleSheet.create({
   group: { gap: space.sm },
+  toggles: { gap: space.sm, flexWrap: "wrap" },
   footer: { gap: space.md },
   flex: { flex: 1 },
   moreButton: { paddingHorizontal: 0, minHeight: 36 },

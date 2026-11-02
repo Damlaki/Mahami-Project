@@ -44,7 +44,7 @@ export function Chip({ label, selected, onPress, color, icon, count }: ChipProps
       </AppText>
       {count !== undefined ? (
         <View style={[styles.count, { backgroundColor: selected ? "rgba(255,255,255,0.25)" : colors.surfaceAlt }]}>
-          <AppText variant="label" style={{ color: fg, fontSize: 11, lineHeight: 16 }}>
+          <AppText variant="label" style={{ color: fg, fontSize: 10, lineHeight: 14 }}>
             {count}
           </AppText>
         </View>
@@ -101,7 +101,7 @@ export function ChipRow<T extends string | number>({ options, value, onChange, s
 
 const styles = StyleSheet.create({
   chip: {
-    minHeight: 36,
+    minHeight: 32,
     paddingHorizontal: space.md,
     borderRadius: radius.pill,
     borderWidth: 1,

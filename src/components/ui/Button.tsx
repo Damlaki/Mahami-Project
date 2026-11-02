@@ -89,7 +89,7 @@ export function IconButton({ icon, size = 22, color, background, style, ...rest 
 
 const styles = StyleSheet.create({
   button: {
-    minHeight: 48,
+    minHeight: 44,
     paddingHorizontal: space.xl,
     borderRadius: radius.pill,
     borderWidth: 1,

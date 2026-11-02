@@ -67,13 +67,13 @@ export const TextField = forwardRef<TextInput, TextFieldProps>(function TextFiel
 const styles = StyleSheet.create({
   wrapper: { gap: 6 },
   input: {
-    minHeight: 48,
+    minHeight: 44,
     borderRadius: radius.md,
     borderWidth: 1.5,
     paddingHorizontal: space.lg,
     paddingVertical: space.sm,
     fontFamily: fonts.regular,
-    fontSize: 15,
+    fontSize: 14,
   },
   multiline: { minHeight: 88, textAlignVertical: "top", paddingTop: space.md },
 });

@@ -3,7 +3,7 @@
     "name": "Orbit",
     "slug": "mahami-planner",
     "scheme": "mahami",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "backgroundColor": "#F7F4EF",
@@ -45,6 +45,9 @@
         "projectId": "9cb44391-14d6-4d1a-a9f8-c5bcd4184f20"
       }
     },
-    "icon": "./assets/icon.png"
+    "icon": "./assets/icon.png",
+    "locales": {
+      "ar": "./locales/ar.json"
+    }
   }
 }

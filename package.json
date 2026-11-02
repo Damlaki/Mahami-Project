@@ -8,7 +8,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "typecheck": "tsc --noEmit",
-    "test": "node --experimental-strip-types --no-warnings --import ./tests/register.mjs --test tests/date.test.ts tests/task.test.ts tests/import-and-prefs.test.ts",
+    "test": "node --experimental-strip-types --no-warnings --import ./tests/register.mjs --test tests/date.test.ts tests/task.test.ts tests/import-and-prefs.test.ts tests/timeline-matrix.test.ts",
     "doctor": "npx expo-doctor"
   },
   "dependencies": {
@@ -31,7 +31,7 @@
     "react-native-screens": "~4.30.0"
   },
   "devDependencies": {
-    "@types/react": "~19.3.0",
+    "@types/react": "~19.2.4",
     "typescript": "~6.0.3"
   }
 }

@@ -3,7 +3,7 @@
  * these repositories. In Phase 4 a Supabase-backed TaskRepository will implement
  * the same interface, so the UI won't need to change.
  */
-import { isTask } from "../domain/task";
+import { upgradeTask } from "../domain/task";
 import type { Task } from "../domain/task";
 import { sanitizePreferences } from "../domain/preferences";
 import type { Preferences } from "../domain/preferences";
@@ -30,7 +30,7 @@ export const localTaskRepository: TaskRepository = {
     if (stored === null) return [];
     // Future schema upgrades go here: if (stored.version === 1) { ...migrate... }
     if (!Array.isArray(stored.data)) return [];
-    return stored.data.filter(isTask);
+    return stored.data.map(upgradeTask).filter((t): t is Task => t !== null);
   },
   async save(tasks) {
     await writeJson(TASKS_KEY, TASKS_VERSION, tasks);

@@ -63,7 +63,7 @@ function TaskCardBase({ task, overdue, dateLabel, onToggle, onOpen }: TaskCardPr
       <View style={[styles.capsule, { backgroundColor: task.isDone ? colors.surfaceAlt : accent }]}>
         <Ionicons
           name={CATEGORY_ICONS[task.category]}
-          size={18}
+          size={16}
           color={task.isDone ? colors.textFaint : "#FFFFFF"}
         />
       </View>
@@ -119,7 +119,7 @@ function TaskCardBase({ task, overdue, dateLabel, onToggle, onOpen }: TaskCardPr
           },
         ]}
       >
-        {task.isDone ? <Ionicons name="checkmark" size={18} color="#FFFFFF" /> : null}
+        {task.isDone ? <Ionicons name="checkmark" size={15} color="#FFFFFF" /> : null}
       </Pressable>
     </Pressable>
   );
@@ -136,9 +136,9 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
   },
   capsule: {
-    width: 40,
-    height: 52,
-    borderRadius: 20,
+    width: 36,
+    height: 46,
+    borderRadius: 18,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -147,9 +147,9 @@ const styles = StyleSheet.create({
   titleRow: { alignItems: "center", gap: 6 },
   shrink: { flexShrink: 1 },
   check: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
