@@ -103,8 +103,7 @@ export default function TasksScreen() {
             <EmptyState
               icon={EMPTY_ICONS[view]}
               message={t(`empty.${view}`)}
-              actionLabel={view === "completed" || view === "overdue" ? undefined : t("empty.action")}
-              onAction={add}
+              hint={view === "today" || view === "upcoming" ? t("empty.hint") : undefined}
             />
           </LoadState>
         }

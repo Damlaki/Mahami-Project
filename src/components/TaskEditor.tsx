@@ -1,6 +1,7 @@
 /**
  * Create / edit task sheet. Fast path: type a title and press Save (date defaults
- * to where you opened it from). Everything else sits behind "More options".
+ * to where you opened it from). Date, time, duration and one priority choice are
+ * always visible; category, notes and delete sit behind "More options".
  */
 import { useEffect, useMemo, useState } from "react";
 import { Platform, StyleSheet, View } from "react-native";
@@ -9,7 +10,6 @@ import {
   CATEGORIES,
   DURATION_PRESETS,
   NOTES_MAX,
-  PRIORITIES,
   TITLE_MAX,
   emptyTaskInput,
   hasErrors,
@@ -17,7 +17,8 @@ import {
   validateTaskInput,
 } from "@/domain/task";
 import type { Task, TaskErrors, TaskInput } from "@/domain/task";
-import { quickDates } from "@/domain/selectors";
+import { QUADRANTS, quadrantFields, quadrantOf, quickDates } from "@/domain/selectors";
+import type { Quadrant } from "@/domain/selectors";
 import { dateToTime, formatShortDate, formatTime, parseDateKey, toDateKey, todayKey } from "@/lib/date";
 import type { StringKey } from "@/i18n/strings";
 import { useI18n } from "@/i18n/I18nProvider";
@@ -26,7 +27,8 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { space } from "@/theme/tokens";
 import { AppText } from "./ui/AppText";
 import { Button } from "./ui/Button";
-import { Chip, ChipRow } from "./ui/Chip";
+import { ChipRow } from "./ui/Chip";
+import type { IconName } from "./ui/Button";
 import { Sheet } from "./ui/Sheet";
 import { TextField } from "./ui/TextField";
 import { CATEGORY_ICONS } from "./TaskCard";
@@ -42,10 +44,23 @@ interface TaskEditorProps {
 
 type DateChoice = "none" | "today" | "tomorrow" | "custom";
 
+export const LEVEL_ICONS: Record<Quadrant, IconName> = {
+  do: "flash",
+  schedule: "star",
+  delegate: "time",
+  eliminate: "ellipse-outline",
+};
+
 export function TaskEditor({ visible, task, defaults, onClose, onSave, onDelete }: TaskEditorProps) {
   const { t, lang, row } = useI18n();
   const { prefs } = usePreferences();
   const { colors } = useTheme();
+  const levelColors: Record<Quadrant, string> = {
+    do: colors.danger,
+    schedule: colors.success,
+    delegate: colors.warning,
+    eliminate: colors.textMuted,
+  };
 
   const [input, setInput] = useState<TaskInput>(emptyTaskInput());
   const [errors, setErrors] = useState<TaskErrors>({});
@@ -276,24 +291,26 @@ export function TaskEditor({ visible, task, defaults, onClose, onSave, onDelete 
 
       <View style={styles.group}>
         <AppText variant="label" tone="muted">
-          {t("editor.matrix")}
+          {t("editor.priority")}
         </AppText>
-        <View style={[styles.toggles, { flexDirection: row }]}>
-          <Chip
-            label={t("matrix.important")}
-            icon={input.important ? "star" : "star-outline"}
-            color={colors.primary}
-            selected={input.important}
-            onPress={() => set("important", !input.important)}
-          />
-          <Chip
-            label={t("matrix.urgent")}
-            icon={input.urgent ? "flash" : "flash-outline"}
-            color={colors.danger}
-            selected={input.urgent}
-            onPress={() => set("urgent", !input.urgent)}
-          />
-        </View>
+        <ChipRow
+          options={QUADRANTS.map((q) => ({
+            value: q,
+            label: t(`level.${q}`),
+            color: levelColors[q],
+            icon: LEVEL_ICONS[q],
+          }))}
+          value={quadrantOf(input)}
+          onChange={(q) => {
+            const fields = quadrantFields(q);
+            set("important", fields.important);
+            set("urgent", fields.urgent);
+            set("priority", fields.priority);
+          }}
+        />
+        <AppText variant="label" tone="faint">
+          {t("editor.priorityHint")}
+        </AppText>
       </View>
 
       <View style={{ flexDirection: row }}>
@@ -309,22 +326,6 @@ export function TaskEditor({ visible, task, defaults, onClose, onSave, onDelete 
 
       {showMore ? (
         <>
-          <View style={styles.group}>
-            <AppText variant="label" tone="muted">
-              {t("editor.priority")}
-            </AppText>
-            <ChipRow
-              options={PRIORITIES.map((p) => ({
-                value: p,
-                label: t(`priority.${p}`),
-                color: colors.priority[p],
-                icon: "flag" as const,
-              }))}
-              value={input.priority}
-              onChange={(p) => set("priority", p)}
-            />
-          </View>
-
           <View style={styles.group}>
             <AppText variant="label" tone="muted">
               {t("editor.category")}
@@ -362,7 +363,6 @@ export function TaskEditor({ visible, task, defaults, onClose, onSave, onDelete 
 
 const styles = StyleSheet.create({
   group: { gap: space.sm },
-  toggles: { gap: space.sm, flexWrap: "wrap" },
   footer: { gap: space.md },
   flex: { flex: 1 },
   moreButton: { paddingHorizontal: 0, minHeight: 36 },

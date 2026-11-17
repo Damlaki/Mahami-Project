@@ -1,15 +1,15 @@
 /**
  * Eisenhower matrix: open tasks split by important × urgent, in a 2×2 grid.
- * Tap a task to edit it (and move it by toggling Important / Urgent),
- * tap the circle to complete it, tap + to add a task straight into a quadrant.
+ * Tap a task to edit it (its Priority choice decides the box), tap the circle
+ * to complete it. Unfinished tasks from past days drop out (see Tasks → Overdue).
  */
 import { useMemo } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { QUADRANTS, groupByQuadrant, quadrantFlags } from "@/domain/selectors";
+import { QUADRANTS, groupByQuadrant } from "@/domain/selectors";
 import type { Quadrant } from "@/domain/selectors";
 import type { Task } from "@/domain/task";
-import { formatShortDate, formatTime, parseDateKey } from "@/lib/date";
+import { formatShortDate, formatTime, parseDateKey, toDateKey } from "@/lib/date";
 import { useTasks } from "@/state/TasksProvider";
 import { useUI } from "@/state/UIProvider";
 import { usePreferences } from "@/state/PreferencesProvider";
@@ -18,9 +18,10 @@ import { useTheme } from "@/theme/ThemeProvider";
 import { radius, space } from "@/theme/tokens";
 import { Screen } from "@/components/ui/Screen";
 import { AppText } from "@/components/ui/AppText";
-import { IconButton } from "@/components/ui/Button";
 import type { IconName } from "@/components/ui/Button";
+import { Fab } from "@/components/ui/Fab";
 import { LoadState } from "@/components/LoadState";
+import { useNow } from "@/components/LiveClock";
 
 const VISIBLE_PER_QUADRANT = 6;
 
@@ -33,13 +34,17 @@ const ICONS: Record<Quadrant, IconName> = {
 
 export default function MatrixScreen() {
   const { tasks } = useTasks();
+  const { openEditor } = useUI();
   const { t, row } = useI18n();
-  const groups = useMemo(() => groupByQuadrant(tasks), [tasks]);
+  // Re-group when the date changes, so yesterday's tasks leave after midnight.
+  const today = toDateKey(useNow(60_000));
+  const { groups, overdue } = useMemo(() => groupByQuadrant(tasks, today), [tasks, today]);
 
   // Two rows of two cards; `row` mirrors the grid for Arabic.
   const rows: Quadrant[][] = [QUADRANTS.slice(0, 2), QUADRANTS.slice(2, 4)];
 
   return (
+    <View style={styles.flex}>
     <Screen>
       <View style={styles.header}>
         <AppText variant="title">{t("matrix.title")}</AppText>
@@ -58,8 +63,15 @@ export default function MatrixScreen() {
             </View>
           ))}
         </View>
+        {overdue > 0 ? (
+          <AppText variant="caption" tone="muted" align="center">
+            {t("matrix.overdueHidden", { n: overdue })}
+          </AppText>
+        ) : null}
       </LoadState>
     </Screen>
+    <Fab onPress={() => openEditor(null, { date: today })} accessibilityLabel={t("editor.new")} />
+    </View>
   );
 }
 
@@ -97,14 +109,6 @@ function QuadrantCard({ quadrant, tasks }: { quadrant: Quadrant; tasks: Task[] }
             {t(`matrix.${quadrant}.hint`)}
           </AppText>
         </View>
-        <IconButton
-          icon="add"
-          size={18}
-          color={accent}
-          accessibilityLabel={t("matrix.add", { name })}
-          onPress={() => openEditor(null, quadrantFlags(quadrant))}
-          style={styles.addButton}
-        />
       </View>
 
       {tasks.length === 0 ? (
@@ -194,7 +198,6 @@ const styles = StyleSheet.create({
   cardHeader: { alignItems: "center", gap: space.sm, paddingHorizontal: space.sm, paddingTop: space.sm },
   badge: { width: 24, height: 24, borderRadius: 12, alignItems: "center", justifyContent: "center" },
   hint: { fontSize: 10, lineHeight: 14 },
-  addButton: { width: 36, height: 36 },
   empty: { marginTop: space.xl },
   list: { gap: space.sm, paddingHorizontal: space.md, paddingTop: space.sm },
   row: { alignItems: "flex-start", gap: space.sm },

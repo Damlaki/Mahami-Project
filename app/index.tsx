@@ -141,7 +141,9 @@ export default function HomeScreen() {
               ))}
             </View>
           ) : status === "ready" ? (
-            <Button label={t("empty.action")} icon="add" variant="secondary" onPress={addForToday} />
+            <AppText variant="caption" tone="muted" align="center">
+              {t("empty.hint")}
+            </AppText>
           ) : null}
         </LoadState>
       </Screen>

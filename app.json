@@ -3,7 +3,7 @@
     "name": "Orbit",
     "slug": "mahami-planner",
     "scheme": "mahami",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
     "backgroundColor": "#F7F4EF",

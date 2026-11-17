@@ -190,8 +190,7 @@ export default function TimelineScreen() {
             <EmptyState
               icon="time-outline"
               message={`${t("timeline.empty")}\n${t("timeline.emptyHint")}`}
-              actionLabel={t("empty.action")}
-              onAction={add}
+              hint={t("empty.hint")}
             />
           ) : null}
 

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { createTask, emptyTaskInput, upgradeTask } from "../src/domain/task.ts";
 import type { Task } from "../src/domain/task.ts";
 import { buildTimeline, blockStatus } from "../src/domain/timeline.ts";
-import { groupByQuadrant, quadrantFlags, quadrantOf } from "../src/domain/selectors.ts";
+import { groupByQuadrant, quadrantFields, quadrantFlags, quadrantOf } from "../src/domain/selectors.ts";
 
 const NOW = new Date(2026, 10, 2, 10, 0);
 const DAY = "2026-11-02";
@@ -59,14 +59,24 @@ test("quadrants", () => {
   assert.equal(quadrantOf({ important: false, urgent: false }), "eliminate");
   for (const q of ["do", "schedule", "delegate", "eliminate"] as const) assert.equal(quadrantOf(quadrantFlags(q)), q);
 
-  const groups = groupByQuadrant([
-    make({ id: "1", important: true, urgent: true }),
-    make({ id: "2", important: true }),
-    make({ id: "3", important: true, urgent: true, isDone: true }), // done tasks are hidden
-  ]);
+  const { groups, overdue } = groupByQuadrant(
+    [
+      make({ id: "1", important: true, urgent: true, date: DAY }),
+      make({ id: "2", important: true }),
+      make({ id: "3", important: true, urgent: true, isDone: true }), // done: hidden
+      make({ id: "4", important: true, urgent: true, date: "2026-11-01" }), // yesterday, not done: drops out
+      make({ id: "5", urgent: true, date: "2026-11-05" }), // upcoming: stays
+    ],
+    DAY,
+  );
   assert.deepEqual(groups.do.map((t) => t.id), ["1"]);
   assert.deepEqual(groups.schedule.map((t) => t.id), ["2"]);
+  assert.deepEqual(groups.delegate.map((t) => t.id), ["5"]);
   assert.equal(groups.eliminate.length, 0);
+  assert.equal(overdue, 1);
+
+  const fields = quadrantFields("schedule");
+  assert.deepEqual(fields, { important: true, urgent: false, priority: "high" });
 });
 
 test("tasks saved by v1 get matrix flags from their priority", () => {

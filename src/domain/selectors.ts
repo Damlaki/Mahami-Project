@@ -1,6 +1,6 @@
 import { addDays, timeToMinutes } from "../lib/date";
 import { PRIORITY_RANK, taskEndTime } from "./task";
-import type { Task } from "./task";
+import type { Priority, Task } from "./task";
 
 export type TaskView = "all" | "today" | "upcoming" | "overdue" | "completed";
 export const TASK_VIEWS: readonly TaskView[] = ["all", "today", "upcoming", "overdue", "completed"];
@@ -154,9 +154,34 @@ export function quadrantFlags(q: Quadrant): { important: boolean; urgent: boolea
   return { important: q === "do" || q === "schedule", urgent: q === "do" || q === "delegate" };
 }
 
-/** Open tasks per quadrant, sorted. */
-export function groupByQuadrant(tasks: readonly Task[]): Record<Quadrant, Task[]> {
+/** The single "priority" choice in the editor sets all three fields together. */
+export const PRIORITY_FOR_QUADRANT: Record<Quadrant, Priority> = {
+  do: "urgent",
+  schedule: "high",
+  delegate: "medium",
+  eliminate: "low",
+};
+
+export function quadrantFields(q: Quadrant): { important: boolean; urgent: boolean; priority: Priority } {
+  return { ...quadrantFlags(q), priority: PRIORITY_FOR_QUADRANT[q] };
+}
+
+export interface MatrixGroups {
+  groups: Record<Quadrant, Task[]>;
+  /** Open tasks from past days: kept out of the matrix, still listed under Tasks → Overdue */
+  overdue: number;
+}
+
+/**
+ * Open tasks per quadrant, sorted. The matrix is about what's ahead, so
+ * unfinished tasks from earlier days drop out of it once their day is over.
+ */
+export function groupByQuadrant(tasks: readonly Task[], today: string): MatrixGroups {
   const groups: Record<Quadrant, Task[]> = { do: [], schedule: [], delegate: [], eliminate: [] };
-  for (const task of sortTasks(tasks.filter((t) => !t.isDone))) groups[quadrantOf(task)].push(task);
-  return groups;
+  let overdue = 0;
+  for (const task of sortTasks(tasks.filter((t) => !t.isDone))) {
+    if (isOverdue(task, today)) overdue++;
+    else groups[quadrantOf(task)].push(task);
+  }
+  return { groups, overdue };
 }

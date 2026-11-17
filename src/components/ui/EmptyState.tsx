@@ -3,17 +3,16 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/theme/ThemeProvider";
 import { space } from "@/theme/tokens";
 import { AppText } from "./AppText";
-import { Button } from "./Button";
 import type { IconName } from "./Button";
 
 interface EmptyStateProps {
   icon: IconName;
   message: string;
-  actionLabel?: string;
-  onAction?: () => void;
+  /** Short pointer to the + button (the one place to add tasks) */
+  hint?: string;
 }
 
-export function EmptyState({ icon, message, actionLabel, onAction }: EmptyStateProps) {
+export function EmptyState({ icon, message, hint }: EmptyStateProps) {
   const { colors } = useTheme();
   return (
     <View style={styles.wrapper}>
@@ -23,7 +22,11 @@ export function EmptyState({ icon, message, actionLabel, onAction }: EmptyStateP
       <AppText tone="muted" align="center">
         {message}
       </AppText>
-      {actionLabel && onAction ? <Button label={actionLabel} icon="add" variant="secondary" onPress={onAction} /> : null}
+      {hint ? (
+        <AppText variant="caption" tone="faint" align="center">
+          {hint}
+        </AppText>
+      ) : null}
     </View>
   );
 }
