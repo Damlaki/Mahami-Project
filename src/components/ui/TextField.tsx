@@ -1,4 +1,5 @@
 import { forwardRef, useState } from "react";
+import type { ComponentRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import type { TextInputProps } from "react-native";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -12,7 +13,7 @@ interface TextFieldProps extends TextInputProps {
   hint?: string;
 }
 
-export const TextField = forwardRef<TextInput, TextFieldProps>(function TextField(
+export const TextField = forwardRef<ComponentRef<typeof TextInput>, TextFieldProps>(function TextField(
   { label, error, hint, style, multiline, onFocus, onBlur, ...rest },
   ref,
 ) {

@@ -5,7 +5,7 @@
  * top, a "now" line on today, and tap an empty slot to plan a task there.
  */
 import { useEffect, useMemo, useRef } from "react";
-import type { ReactNode } from "react";
+import type { ComponentRef, ReactNode } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import type { GestureResponderEvent } from "react-native";
 import { layoutDay, tasksByDay, weekDays, WEEK_START } from "@/domain/calendar";
@@ -69,7 +69,7 @@ export function WeekView({ header, selected, today, onSelect, onShowDay }: WeekV
   const todayInWeek = days.includes(today);
 
   // Open the grid near the current hour (or the morning) when the week changes.
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const startHour = todayInWeek ? Math.max(0, now.getHours() - 1) : 7;
   useEffect(() => {
     const frame = requestAnimationFrame(() =>

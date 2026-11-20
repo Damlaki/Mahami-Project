@@ -4,6 +4,7 @@
  * free time between them, and a live "now" line on today.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
+import type { ComponentRef } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -87,7 +88,7 @@ export default function TimelineScreen() {
   }, [tasks, colors]);
 
   // Scroll the "now" line into view when opening today.
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const scrolledFor = useRef<string | null>(null);
   const timelineY = useRef(0);
   useEffect(() => {

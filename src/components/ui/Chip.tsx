@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import type { ComponentRef } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -63,7 +64,7 @@ interface ChipRowProps<T extends string | number> {
 /** A single-choice group of chips (wraps, or scrolls horizontally). */
 export function ChipRow<T extends string | number>({ options, value, onChange, scroll }: ChipRowProps<T>) {
   const { row } = useI18n();
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef<ComponentRef<typeof ScrollView>>(null);
   const chips = options.map((o) => (
     <Chip
       key={String(o.value)}
