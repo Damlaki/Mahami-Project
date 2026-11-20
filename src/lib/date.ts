@@ -149,6 +149,38 @@ export function startOfWeek(key: string, weekStart = 1): string {
   return addDays(key, -diff);
 }
 
+/** First day of the month containing `key`. */
+export function startOfMonth(key: string): string {
+  const date = parseDateKey(key);
+  if (!date) throw new Error(`Invalid date key: ${key}`);
+  return toDateKey(new Date(date.getFullYear(), date.getMonth(), 1));
+}
+
+/**
+ * Moves by whole months, keeping the day where possible and clamping it to the
+ * month's last day otherwise (31 Jan + 1 month → 28 Feb, not 3 March).
+ */
+export function addMonths(key: string, months: number): string {
+  const date = parseDateKey(key);
+  if (!date) throw new Error(`Invalid date key: ${key}`);
+  const first = new Date(date.getFullYear(), date.getMonth() + months, 1);
+  const lastDay = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
+  return toDateKey(new Date(first.getFullYear(), first.getMonth(), Math.min(date.getDate(), lastDay)));
+}
+
+/** Both keys fall in the same calendar month. */
+export function isSameMonth(a: string, b: string): boolean {
+  return a.slice(0, 7) === b.slice(0, 7);
+}
+
+/** Short hour label for calendar grids: "09:00" (24h) or "9 AM" / "9 ص" (12h). */
+export function formatHourLabel(hour: number, format: TimeFormat, lang: Lang): string {
+  if (format === "24h") return `${pad(hour)}:00`;
+  const h12 = hour % 12 === 0 ? 12 : hour % 12;
+  const period = hour < 12 ? (lang === "ar" ? "ص" : "AM") : lang === "ar" ? "م" : "PM";
+  return `${h12} ${period}`;
+}
+
 /** "November 2026" */
 export function formatMonthYear(date: Date, lang: Lang): string {
   return safeFormat(date, lang, { month: "long", year: "numeric" });

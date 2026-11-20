@@ -1,6 +1,6 @@
 # Orbit · أوربت: personal planner for Android
 
-A daily planner, task manager and (soon) calendar, habit tracker and focus timer, built with **React Native + Expo** and TypeScript. It grew out of the vanilla-JS to-do app in `Lessons/JS-Course2/to-do-list-project`, which is left untouched.
+A daily planner, task manager and calendar, with (soon) a habit tracker and focus timer, built with **React Native + Expo** and TypeScript. It grew out of the vanilla-JS to-do app in `Lessons/JS-Course2/to-do-list-project`, which is left untouched.
 
 **Status: Phase 1 of 6.** See [What works now](#what-works-now) and [Roadmap](#roadmap).
 
@@ -37,7 +37,7 @@ Scan the QR code with Expo Go. Your PC and phone must be on the same Wi-Fi. If t
 | Command | What it does |
 |---|---|
 | `npm start` | Start the dev server (press `a` to open on a connected Android device/emulator) |
-| `npm test` | Run the unit tests (dates, tasks, filters, import, preferences); needs no extra packages |
+| `npm test` | Run the unit tests (dates, tasks, filters, calendar layout, import, preferences); needs no extra packages |
 | `npm run typecheck` | TypeScript check of the whole app |
 | `npm run doctor` | `expo-doctor`, which checks dependency versions and config |
 
@@ -48,7 +48,10 @@ Scan the QR code with Expo Go. Your PC and phone must be on the same Wi-Fi. If t
 - **Home**: greeting based on time of day (with your name, if you set one), today's date, a live clock that ticks each second without drifting, an animated **sun/moon sky**, today's progress, "Next up", today's tasks and an overdue banner.
 - **Timeline** (Structured-style): week strip with task dots, then the day as a vertical rail of colored capsules. Longer tasks get taller capsules. It also shows free time between tasks, a live "now" line on today, overlap warnings and an "Anytime" list for untimed tasks.
 - **Priority matrix** (Eisenhower): open tasks in four quadrants (Do first · Schedule · Delegate · Later) based on each task's **Important** and **Urgent** flags. Add straight into a quadrant with its **+** button. Tasks from v0.1 get their flags from their priority automatically.
-- **Tasks**: create, edit, complete/undo and delete, with **Undo** after a delete. Filter views: All, Today, Upcoming, Overdue and Completed, with counts, grouped by day.
+- **Tasks**: create, edit, complete/undo and delete, with **Undo** after a delete. Three views, switched at the top like Google Calendar (the selected day carries over between them):
+  - **Month**: a grid of days (weeks start on Monday) with a chip per task in its category color, struck through when done, and "+N" when a day is full. Tap a day to list its tasks below the grid.
+  - **Week**: hours down the side and one column per day. Timed tasks are blocks placed by start time and sized by duration; overlapping tasks share the width side by side. Untimed tasks sit in a strip at the top, a "now" line marks today, and tapping an empty slot creates a task at that half hour.
+  - **List**: All, Today, Upcoming, Overdue and Completed, with counts, grouped by day.
 - **Task fields**: title, notes, date (Today/Tomorrow/pick), start time, duration, priority (low → urgent) and category (with colors and icons). Adding a task is fast: type a title and tap Save. The rest sits under "More options".
 - **Theme**: light, dark, follow the system, or **by time** (light 06:00–19:00). The sun/moon toggle animates the switch, the whole screen cross-fades, and animations are skipped when the phone's "Remove animations" setting is on.
 - **Language**: Arabic (RTL) ⇄ English (LTR), switched instantly without a restart.

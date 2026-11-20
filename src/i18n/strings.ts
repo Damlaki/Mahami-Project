@@ -47,6 +47,17 @@ const en = {
   "timeline.nextWeek": "Next week",
   "timeline.conflict": "Overlaps",
   "timeline.selectDay": "{day}, {count} tasks",
+
+  // Calendar (Tasks tab)
+  "calendar.month": "Month",
+  "calendar.week": "Week",
+  "calendar.list": "List",
+  "calendar.prevMonth": "Previous month",
+  "calendar.nextMonth": "Next month",
+  "calendar.more": "+{n}",
+  "calendar.showDay": "Show all {count} tasks on {day}",
+  "calendar.dayEmpty": "Nothing on this day.",
+  "calendar.addOn": "New task on {day}",
   "duration.h": "{h}h",
   "duration.hm": "{h}h {m}m",
 
@@ -236,6 +247,17 @@ const ar: Strings = {
   "timeline.nextWeek": "الأسبوع التالي",
   "timeline.conflict": "متداخلة",
   "timeline.selectDay": "{day}، {count} مهام",
+
+  // Calendar (Tasks tab)
+  "calendar.month": "شهر",
+  "calendar.week": "أسبوع",
+  "calendar.list": "قائمة",
+  "calendar.prevMonth": "الشهر السابق",
+  "calendar.nextMonth": "الشهر التالي",
+  "calendar.more": "+{n}",
+  "calendar.showDay": "عرض كل المهام ({count}) يوم {day}",
+  "calendar.dayEmpty": "لا شيء في هذا اليوم.",
+  "calendar.addOn": "مهمة جديدة يوم {day}",
   "duration.h": "{h} س",
   "duration.hm": "{h} س {m} د",
 
